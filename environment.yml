@@ -1,4 +1,4 @@
-name: simu_col
+name: train_sim
 channels:
   - pytorch
   - conda-forge
