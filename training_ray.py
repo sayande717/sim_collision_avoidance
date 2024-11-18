@@ -22,12 +22,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train the agent')
 
     parser.add_argument('--config', type=str,
-                         default="APEX_TEST_CONFIG",
+                            default="APEX_TEST_CONFIG",
                         help='Configuration dict')
     parser.add_argument('--checkpoint_freq', type=int,
-                         default=150,
+                            default=150,
                         help='Checkpoint save frequency')
-    
+
 
     args = parser.parse_args()
     print(args)
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     log_dir = "tmp/gym/"
     os.makedirs(log_dir, exist_ok=True)
     env_id = 'myenv-v0'
-    
+
     policy_config = eval(args.config)
 
     ray.init()
@@ -49,6 +49,3 @@ if __name__ == '__main__':
         checkpoint_freq=150,
         #restore=""
     )
-
-    
-
