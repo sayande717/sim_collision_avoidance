@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>sim&lowbar;collision&lowbar;avoidance</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 22px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="sim_collision_avoidance">sim_collision_avoidance</h1>
+<p>[Readme in progress]</p>
+<h2 id="introduction">Introduction</h2>
+<p>This git project has been made on the context of our paper &quot;Deep reinforcement learning with predictive
+auxiliary task for train collision avoidance&quot; submitted to the journal Transactions on Intelligent Transportation Systems (TITS)
+(this paper is at this moment under review).</p>
+<p>With this project, the ambition is not only to share the implementation of the works made for this paper, but also to offer the
+community an easy-to-use and efficient tool for future work on train collision avoidance.
+Thus, it is easily modular in several aspects. First, in addition to already implemented train dynamics, anyone can
+easily incorporate their own train or obstacle dynamics. An observation builder comes as an external wrapper of the environment,
+allowing to directly build its own state representation (e.g. tabular, image-like, . . . ). In the same way, constructing a
+custom reward function is facilitated by the architecture. The simulation can be run in real time or in accelerated
+time, allowing hours of driving to be simulated in minutes. A graphical visualization can also be activated for training,
+and testing and to enable the possibility of driving the train manually with the keyboard, allowing, among other things, the
+use of imitation learning.</p>
+<p>In this repo, you will find:</p>
+<ul>
+<li>A train collision avoidance simulation environment built on Gym.</li>
+<li>A manual driving script with a graphical interface enabling the possibility of driving the train
+manually with the keyboard.</li>
+<li>The models presented in the paper with their best checkpoints (CNN, CNN-LSTM and CNN-LSTM with predictive auxiliary task and decision tree).</li>
+<li>The data used in the results chapter in the paper.</li>
+<li>Many tools to build custom policies, observation builder and train dynamics.</li>
+<li>A train script to train your own models</li>
+<li>A test script to validate our models or your own</li>
+</ul>
+<h2 id="credits">Credits</h2>
+<p>Antoine Plissonneau - Railenium / UPHF LAMIH</p>
+<p>Luca Jourdan - Railenium</p>
+<p>Copyright (c) 2022 IRT Railenium. All Rights Reserved.</p>
+<p>Copyrights licensed under an Academic/non-profit use license.</p>
+<p>See the accompanying LICENSE file for terms.</p>
+<h2 id="installation">Installation</h2>
+<p>The simplest way to install all the dependencies of this project is to use Anaconda and to create an environment with the environment.yml file:</p>
+<pre><code class="language-bash">conda <span class="hljs-built_in">env</span> create -f environment.yml
+conda activate simu_col
+</code></pre>
+<p>Torch and Cuda versions are relative to your GPU setup and then may be different that the ones specified in the environment.yml. This requirement file works for Ubuntu 20.04.5 LTS + CUDA 11.4. If you have installation issues, feel free to contact us.</p>
+<h2 id="train-model">Train model</h2>
+<p>Anyone can use the configurations available in <code>rllib_config.py</code> or add a new one in the same file (more details behind). These configs are used to setup the experiment.
+Be careful when selecting the &quot;num_worker&quot;, &quot;buffer_size&quot; and &quot;batch_size&quot; values because it depend of your hardware capabilities.</p>
+<p>Train an agent with the command:</p>
+<pre><code>$ python training_ray.py --config APEX_CNNLSTM_aux_CONFIG --checkpoint_freq 150
+</code></pre>
+<p><em>Arguments</em>:</p>
+<ul>
+<li><code>--config</code>: name of the config to use (<code>str</code>)</li>
+<li><code>--checkpoint_freq</code>: The number of training steps before dumping the network parameters (<code>int</code>)</li>
+</ul>
+<p>The checkpoints, callbacks and experiments params are saved in the folder <code>rllib_test/3obs_img/</code>.</p>
+<h2 id="approximate-a-rl-agent-using-a-decision-tree">Approximate a RL agent using a decision tree</h2>
+<p>Create a dataset with the command:</p>
+<pre><code>$ python decision_tree/data_generation.py --checkpoint &quot;rllib_test/3obs_img/CNN_LSTM_aux/checkpoint_003600/checkpoint-3600&quot; --obs_num 3 --num_ep 1000
+</code></pre>
+<p><em>Arguments</em>:</p>
+<ul>
+<li><code>--checkpoint</code>: path to the checkpoint of the model to approximate (<code>str</code>)</li>
+<li><code>--obs_num</code>: Number of obstacles to use to constitute the dataset (<code>int</code>)</li>
+<li><code>--num_ep</code>: Number of episode to create the dataset on (<code>int</code>)</li>
+</ul>
+<h2 id="test-models">Test models</h2>
+<p>This git allows to test already trained algorithms in the train obstacle avoidance simulator. Example of use:</p>
+<pre><code>$ python test_ray.py --checkpoint &quot;rllib_test/3obs_img/CNN_LSTM_aux/checkpoint_003600/checkpoint-3600&quot;  --obs_num 3 --num_ep 1000
+</code></pre>
+<p>If you want to test the decision tree, you previously have to unzip the file decision_tree/dataset.zip.</p>
+<p><em>Arguments</em>:</p>
+<ul>
+<li><code>--checkpoint</code>: path to the checkpoint to test (<code>str</code>)</li>
+<li><code>--show</code>: If used, display the test scenario. It slows the process because the simulation is made in real time with this option.</li>
+<li><code>--obs_num</code>: Number of obstacles to use in test scenario (<code>int</code>)</li>
+<li><code>--num_ep</code>: Number of episode to test on (<code>int</code>)</li>
+</ul>
+<h2 id="manual-driving">Manual driving</h2>
+<p>You can manually drive the train using:</p>
+<pre><code>$ python manual_driving.py
+</code></pre>
+<p>Use your keyboard to accelerate (&quot;Z&quot;) or brake (&quot;E&quot;).</p>
+<h2 id="analyse-the-data-used-in-the-result-section-of-our-paper">Analyse the data used in the result section of our paper</h2>
+<p>The data and scripts used to compute the figures presented in the paper are available in the &quot;Analysis&quot; folder.</p>
+<h2 id="build-a-custom-agent--custom-environment">Build a custom agent / Custom environment</h2>
+<h3 id="config-file">Config file</h3>
+<p>The config is defined in <code>rllib_configs.py</code>. It list all the parameters to use for the training of the agent like:</p>
+<ul>
+<li>The environment parameters</li>
+<li>The rl algorithm to use and its hyperparameters</li>
+<li>The model to use to estimate de policy and its hyperparameters</li>
+<li>...</li>
+</ul>
+<p>You can base your config file on existing configs for several reinforcement learning algorithms implemented in rllib: [<a href="https://docs.ray.io/en/latest/rllib/rllib-algorithms.html">https://docs.ray.io/en/latest/rllib/rllib-algorithms.html</a>]</p>
+<p>The common parameters of a config file are described here: [<a href="https://docs.ray.io/en/latest/rllib/rllib-training.html#common-parameters">https://docs.ray.io/en/latest/rllib/rllib-training.html#common-parameters</a>]</p>
+<h3 id="custom-policy">Custom policy</h3>
+<p>You can build your own policy class in <code>custom_policies_ray.py</code>.</p>
+<p>More information on how to build a custom ray policy: [<a href="https://docs.ray.io/en/latest/rllib/rllib-concepts.html">https://docs.ray.io/en/latest/rllib/rllib-concepts.html</a>].</p>
+<p>Note that to train an agent using this policy, you have to register it at the end of the script. Example:</p>
+<pre><code>ModelCatalog.register_custom_model(&quot;LowresCNN&quot;, LowresCNN)
+</code></pre>
+<p>and you have to call it in your custom config.Example:</p>
+<pre><code>&quot;model&quot; : {
+	  &quot;custom_model&quot; : &quot;LowresCNN&quot;
+			},
+</code></pre>
+<p>The already implemented policies include:</p>
+<ul>
+<li>A CNN</li>
+<li>A CNN3D</li>
+<li>A CNN-LSTM</li>
+<li>A CNN-LSTM with predictive auxiliary task</li>
+</ul>
+<h3 id="custom-observation-builder">Custom observation builder</h3>
+<p>You can build your own observation builder to modify the state representation in input of your model by creating a class in <code>observation_builder/obs_builder.py</code>.</p>
+<p>You also have to call it in your custom config.</p>
+<h3 id="custom-environment">Custom environment</h3>
+<h4 id="custom-dynamics">Custom dynamics</h4>
+<p>Multiple train dynamics are already implemented in<code>simulation/functions.py</code>. You can had your own or modify an existing one in this script.</p>
+<p>To change the train dynamic in the environment, manually change it in <code>simulation/env.py</code>.</p>
+<h4 id="custom-reward">Custom reward</h4>
+<p>The weights of the reward can be set in the config file. To create new rewards, directly modify <code>simulation/env.py</code>.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
